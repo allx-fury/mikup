@@ -34,6 +34,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
+                ->domain(\Config::get('app.url', null))
                 ->group(base_path('routes/web.php'));
         });
     }
