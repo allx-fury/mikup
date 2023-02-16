@@ -106,7 +106,7 @@ class ServerController extends Controller
         $username = "alx";
         $password = "netw0rk)OKM(IJN";
 
-        $dir = public_path().'\file-login';
+        $dir = public_path().'/file-login';
         $remote_dir = '/flash/file-login';
         $messages = array();
 

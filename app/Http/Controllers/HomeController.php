@@ -24,9 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $location = public_path().'\data_file';
+        $location = public_path().'/data_file';
 
-        $fi = glob($location.'\*.*');
+        $fi = glob($location.'/*.*');
         $files = count($fi);
 
         $ffs = scandir($location);
