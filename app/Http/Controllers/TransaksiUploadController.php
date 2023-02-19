@@ -119,19 +119,19 @@ class TransaksiUploadController extends Controller
         // upload file
 		$file->move($tujuan_upload,$file->getClientOriginalName());
 
-        $paths = public_path().'\\'.$tujuan_upload.'\\'.$file->getClientOriginalName();
+        $paths = public_path().'/'.$tujuan_upload.'/'.$file->getClientOriginalName();
 
         $zip = new ZipArchive;
         $res = $zip->open($paths);
         if ($res === TRUE)
         {
-            $zip->extractTo(public_path().'\\file-login\\');
+            $zip->extractTo(public_path().'/file-login/');
             $zip->close();
             return redirect()->route('files')->with('success','Berhasil Upload File Ke Sistem!');
         }
         else 
         {
-            echo 'doh!';
+            echo 'Error Extract File Zip!';
         }
 	}
 }

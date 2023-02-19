@@ -183,9 +183,9 @@ class ServerController extends Controller
         {
             foreach($ffs as $ff)
             {
-                if (is_dir($dir.'\\'.$ff))
+                if (is_dir($dir.'/'.$ff))
                 {
-                    ServerController::listFolder($dir.'\\'.$ff, $remote_dir.'/'.$ff, $ftp_conn);
+                    ServerController::listFolder($dir.'/'.$ff, $remote_dir.'/'.$ff, $ftp_conn);
                     array_push($folders, $remote_dir.'/'.$ff);
                 }
             }
@@ -204,13 +204,13 @@ class ServerController extends Controller
         {
             foreach($ffs as $ff)
             {
-                if (is_dir($dir.'\\'.$ff))
+                if (is_dir($dir.'/'.$ff))
                 {
-                    ServerController::listFiles($dir.'\\'.$ff, $remote_dir.'/'.$ff, $ftp_conn);
+                    ServerController::listFiles($dir.'/'.$ff, $remote_dir.'/'.$ff, $ftp_conn);
                 }
                 else
                 {
-                    array_push($files, array($remote_dir.'/'.$ff, $dir.'\\'.$ff));
+                    array_push($files, array($remote_dir.'/'.$ff, $dir.'/'.$ff));
                 }
             }
         }
