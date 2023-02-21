@@ -28,7 +28,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('upload', App\Http\Controllers\TransaksiUploadController::class);
     Route::resource('instansi', App\Http\Controllers\InstansiController::class);
     Route::post('exec', [App\Http\Controllers\ServerController::class, 'exec'])->name('exec');
-    Route::get('cidr', [App\Http\Controllers\ServerController::class, 'cidr'])->name('cidr');
     Route::get('files', [App\Http\Controllers\TransaksiUploadController::class, 'files'])->name('files');
     Route::post('files/upload', [App\Http\Controllers\TransaksiUploadController::class, 'proses_upload'])->name('pilih');
 });

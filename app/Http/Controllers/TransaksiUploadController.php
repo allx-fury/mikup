@@ -109,7 +109,7 @@ class TransaksiUploadController extends Controller
     public function proses_upload(Request $request)
     {
 		$this->validate($request, [
-			'file' => 'required|file|mimes:zip'
+			'file' => 'required|file|mimes:png'
 		]);
  
 		// menyimpan data file yang diupload ke variabel $file
@@ -117,21 +117,21 @@ class TransaksiUploadController extends Controller
 		$tujuan_upload = 'data_file';
  
         // upload file
-		$file->move($tujuan_upload,$file->getClientOriginalName());
-
+		$file->move($tujuan_upload, $file->getClientOriginalName());
         $paths = public_path().'/'.$tujuan_upload.'/'.$file->getClientOriginalName();
-
-        $zip = new ZipArchive;
-        $res = $zip->open($paths);
-        if ($res === TRUE)
-        {
-            $zip->extractTo(public_path().'/file-login/');
-            $zip->close();
-            return redirect()->route('files')->with('success','Berhasil Upload File Ke Sistem!');
-        }
-        else 
-        {
-            echo 'Error Extract File Zip!';
-        }
+        
+        echo copy($paths, public_path().'/file-login/bup.png');
+        // $zip = new ZipArchive;
+        // $res = $zip->open($paths);
+        // if ($res === TRUE)
+        // {
+        //     $zip->extractTo(public_path().'/file-login/');
+        //     $zip->close();
+        //     return redirect()->route('files')->with('success','Berhasil Upload File Ke Sistem!');
+        // }
+        // else 
+        // {
+        //     echo 'Error Extract File Zip!';
+        // }
 	}
 }

@@ -99,26 +99,18 @@ class ServerController extends Controller
 
         $ids = $request->input('list');
         
-            // $servers = Server::all();
-        
-        
-        // $servers = array("172.11.11.10");
         $username = "alx";
         $password = "netw0rk)OKM(IJN";
 
         $dir = public_path().'/file-login';
-        $remote_dir = '/flash/file-login';
+        $remote_dir = '/flash/file-login/img';
         $messages = array();
 
-        // foreach ($servers as $server)
-        // {
         foreach ($ids as $id)
         {
             $server = Server::find($id);
             $server_address = $server->ip_address;
 
-            // try to connect
-            // $ftp_conn = ServerController::connect($server_address, $username, $password);
             $ftp_conn = ftp_connect($server_address);
 
             if(! $ftp_conn)
@@ -132,14 +124,12 @@ class ServerController extends Controller
                 ftp_pasv($ftp_conn, true);
                 
                 ServerController::deleteDirFile($ftp_conn, $remote_dir);
-                ServerController::listFolder($dir, $remote_dir, $ftp_conn);
                 ServerController::listFiles($dir, $remote_dir, $ftp_conn);
 
                 $success_msg = 'Upload berhasil pada '.$server->nama;
                 array_push($messages, $success_msg);
                 ftp_close($ftp_conn);
             }
-        // }
         }
         $total = count($messages);
         return view('pages.uploadreport', compact('messages','total'));
@@ -147,50 +137,9 @@ class ServerController extends Controller
 
     private static function deleteDirFile($ftp_conn, $remote_dir)
     {
-        $ffs = ftp_nlist($ftp_conn, $remote_dir);
-        $files = array();
-        if ($ffs!=false)
-        {
-            unset($ffs[array_search('.', $ffs, true)]);
-            unset($ffs[array_search('..', $ffs, true)]);
-            // prevent empty ordered elements
-            if (count($ffs) >= 1)
-            {
-                foreach($ffs as $ff)
-                {
-                    if ( @ftp_chdir( $ftp_conn, $remote_dir.'/'.$ff ) ) {
-                        ServerController::deleteDirFile($ftp_conn, $remote_dir.'/'.$ff);
-                        ftp_rmdir($ftp_conn, $remote_dir.'/'.$ff);
-                    } else {
-                        error_reporting(0);
-                        ftp_delete($ftp_conn, $remote_dir.'/'.$ff);
-                    }
-                }
-            }
-            ftp_rmdir($ftp_conn, $remote_dir);
-        }
-        
-    }
-
-    private static function listFolder($dir, $remote_dir, $ftp_conn)
-    {
-        $ffs = scandir($dir);
-        $folders = array();
-        unset($ffs[array_search('.', $ffs, true)]);
-        unset($ffs[array_search('..', $ffs, true)]);
-        // prevent empty ordered elements
-        if (count($ffs) >= 1)
-        {
-            foreach($ffs as $ff)
-            {
-                if (is_dir($dir.'/'.$ff))
-                {
-                    ServerController::listFolder($dir.'/'.$ff, $remote_dir.'/'.$ff, $ftp_conn);
-                    array_push($folders, $remote_dir.'/'.$ff);
-                }
-            }
-        }
-        ServerController::createDir($folders, $ftp_conn);
+        $ff = 'bup.png';
+        error_reporting(0);
+        ftp_delete($ftp_conn, $remote_dir.'/'.$ff);
     }
 
     private static function listFiles($dir, $remote_dir, $ftp_conn)
@@ -215,18 +164,6 @@ class ServerController extends Controller
             }
         }
         ServerController::uploadFile($files, $ftp_conn);
-    }
-
-    private static function createDir($folders, $ftp_conn)
-    {
-        foreach($folders as $folder)
-        {
-            $mkdir = ServerController::makeDirectory($ftp_conn, $folder);
-            if (! $mkdir)
-            {
-                $error_msg = 'Tidak bisa membuat folder';
-            }
-        }
     }
 
     private static function uploadFile($files, $ftp_conn)
@@ -280,17 +217,4 @@ class ServerController extends Controller
 		   return false;
 	   }
 	}
-
-    function cidr()
-    {
-        var_dump(ServerController::cidrToRange("73.35.143.0/24"));
-    }
-
-    function cidrToRange($cidr) {
-        $range = array();
-        $cidr = explode('/', $cidr);
-        $range[0] = long2ip((ip2long($cidr[0])) & ((-1 << (32 - (int)$cidr[1]))));
-        $range[1] = long2ip((ip2long($range[0])) + pow(2, (32 - (int)$cidr[1])) - 1);
-        return $range;
-      }
 }

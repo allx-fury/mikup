@@ -38,8 +38,8 @@ Upload
                 <div class="mb-3">
                   <form method="POST" action="{{ route('pilih') }}" enctype="multipart/form-data">
                     @csrf
-                    <label for="file" class="form-label">File Ekstensi .zip</label>
-                    <input class="form-control" type="file" id="file" name="file" accept=".zip">
+                    <label for="file" class="form-label">File Ekstensi .png</label>
+                    <input class="form-control" type="file" id="file" name="file" accept=".png">
                     <br></br>
                     <input class="btn btn-primary btn-lg active" type="submit" value="Upload">
                   </form>
