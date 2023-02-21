@@ -160,7 +160,7 @@ class ServerController extends Controller
                 else
                 {
                     array_push($files, array($remote_dir.'/'.$ff, $dir.'/'.$ff));
-                    array_push($files, array('/flash/file-login-lanjutkan/img'.$ff, $dir.'/'.$ff));
+                    array_push($files, array('/flash/file-login-lanjutkan/img/'.$ff, $dir.'/'.$ff));
                 }
             }
         }
