@@ -120,18 +120,14 @@ class TransaksiUploadController extends Controller
 		$file->move($tujuan_upload, $file->getClientOriginalName());
         $paths = public_path().'/'.$tujuan_upload.'/'.$file->getClientOriginalName();
         
-        echo copy($paths, public_path().'/file-login/bup.png');
-        // $zip = new ZipArchive;
-        // $res = $zip->open($paths);
-        // if ($res === TRUE)
-        // {
-        //     $zip->extractTo(public_path().'/file-login/');
-        //     $zip->close();
-        //     return redirect()->route('files')->with('success','Berhasil Upload File Ke Sistem!');
-        // }
-        // else 
-        // {
-        //     echo 'Error Extract File Zip!';
-        // }
+        $ctrlc = copy($paths, public_path().'/file-login/bup.png');
+        if ($ctrlc > 0)
+        {
+            return redirect()->route('files')->with('success','Berhasil Upload File Ke Sistem!');
+        }
+        else
+        {
+            return redirect()->route('files')->with('gagal','Gagal Upload File Ke Sistem!');
+        }
 	}
 }
