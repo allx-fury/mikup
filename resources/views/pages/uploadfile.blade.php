@@ -18,7 +18,7 @@ Upload
               <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        @else
+        @elseif (session('gagal'))
         <div class="alert alert-danger alert-dismissible text-white fade show" role="alert">
           <span class="alert-icon"><i class="ni ni-like-2"></i></span>
           <span class="alert-text"><strong>{{ session('gagal') }}</strong></span>
